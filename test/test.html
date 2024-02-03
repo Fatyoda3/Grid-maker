@@ -1,0 +1,576 @@
+<html>
+
+<head>
+    <title>Pixel Art Maker!</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Press+Start+2P">
+    <!-- <link rel="stylesheet" href="styles.css"> -->
+    <link href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" rel="stylesheet">
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
+    <meta charset="utf-8">
+    <style>
+        /* Base css */
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            text-shadow: 2px 2px 4px #000000;
+            font-family: sans-serif, Arial, Helvetica;
+        }
+
+        /* The squares classes are used to generate the background image of the page.*/
+
+        .squares-bg {
+            width: 100%;
+            height: 100%;
+            color: white;
+        }
+
+        .squares-bg::before,
+        .squares-bg::after {
+            content: "";
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .squares-bg::before {
+            background-image:
+                linear-gradient(black 50%, transparent 50%),
+                linear-gradient(to right, grey 50%, black 50%);
+            background-size: 25px 25px;
+        }
+
+        .squares-bg::after {
+            background-image: linear-gradient(black, transparent);
+        }
+
+        /* The grid classes are used for css grid layout.*/
+
+        .gridContainer {
+            display: grid;
+            grid-template-areas:
+                'control canvas';
+            grid-template-columns: minmax(300px, 300px) minmax(400px, 1fr);
+            grid-template-rows: auto;
+            grid-gap: 15px;
+        }
+
+        .gridControl {
+            grid-area: control;
+            height: 410px;
+            background: rgba(105, 105, 105, 0.85);
+            /*dimgrey*/
+            border-radius: 7px;
+            margin: 0 15px 20px 15px;
+            box-shadow: 2px 2px 5px rgba(77, 77, 77, 0.8);
+        }
+
+        .gridCanvas {
+            grid-area: canvas;
+            background: rgba(105, 105, 105, 0.85);
+            /*dimgrey*/
+            border-radius: 7px;
+            margin: 0 15px 20px 15px;
+            box-shadow: 2px 2px 5px rgba(77, 77, 77, 0.8);
+        }
+
+        h1 {
+            font-family: 'Press Start 2P';
+            font-size: 45px;
+            color: dimgrey;
+            padding-top: 15px;
+            text-shadow: 3px 3px 5px red;
+            margin: 0.5em 0 0.75em 0;
+        }
+
+        h2 {
+            margin: 0.5em 0 0.5em;
+        }
+
+        h2:nth-of-type(2) {
+            display: inline;
+        }
+
+        h2:nth-of-type(3) {
+            display: inline;
+        }
+
+        table,
+        tr,
+        td {
+            border: 1px solid black;
+            cursor: pointer;
+        }
+
+        table {
+            border-collapse: collapse;
+            background-color: white;
+            margin: 0 auto;
+            box-shadow: 2px 2px 4px red;
+        }
+
+        tr {
+            height: 20px;
+        }
+
+        td {
+            width: 20px;
+        }
+
+        p {
+            margin: 1em 0 1em;
+        }
+
+        .noLegend {
+            display: none;
+        }
+
+        .legend {
+            display: block;
+        }
+
+        .gridSizeLabel {
+            font-size: 18px;
+        }
+
+        .button {
+            display: inline-block;
+            margin-top: 0.5em;
+            padding: 7px 20px;
+            background: transparent;
+            font-size: 18px;
+            cursor: pointer;
+            text-align: center;
+            text-shadow: 2px 2px 4px #000000;
+            outline: none;
+            color: white;
+            background-color: grey;
+            border: none;
+            border-radius: 5px;
+            box-shadow: 0 3px red;
+        }
+
+        .button:hover {
+            background-color: dimgrey;
+        }
+
+        .button:active {
+            background-color: dimgrey;
+            box-shadow: 0 3px lightcoral;
+            transform: translateY(3px);
+        }
+
+        #createGrid,
+        #paintBtn {
+            margin-right: 10px;
+        }
+
+        input[type=color] {
+            margin: 1.5em 0 1em 0.25em;
+            border: 1px solid darkgray;
+            background-color: grey;
+            cursor: pointer;
+        }
+
+        /* Range input thumb and track styling: browser specific */
+
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 95%;
+            margin: 16px 0;
+            padding: 0;
+            /* corrects spacing issue IE11 */
+        }
+
+        input[type=range]:focus {
+            outline: none;
+        }
+
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 10px;
+            cursor: pointer;
+            animate: 0.2s;
+            box-shadow: 1px 1px 1px black, 0px 0px 1px #0d0d0d;
+            background: red;
+            border-radius: 2px;
+            border: 0.5px solid #010101;
+        }
+
+        input[type=range]::-webkit-slider-thumb {
+            box-shadow: 1px 1px 1px black, 0px 0px 1px #0d0d0d;
+            border: 1px solid black;
+            height: 24px;
+            width: 12px;
+            border-radius: 3px;
+            background: grey;
+            cursor: pointer;
+            -webkit-appearance: none;
+            margin-top: -9px;
+        }
+
+        input[type=range]:hover::-webkit-slider-thumb {
+            background: dimgrey;
+        }
+
+        input[type=range]:focus::-webkit-slider-runnable-track {
+            background: red;
+        }
+
+        input[type=range]::-moz-range-track {
+            width: 95%;
+            height: 10px;
+            cursor: pointer;
+            animate: 0.2s;
+            box-shadow: 1px 1px 1px black, 0px 0px 1px #0d0d0d;
+            background: red;
+            border-radius: 1.3px;
+            border: 0.2px solid #010101;
+        }
+
+        input[type=range]::-moz-range-thumb {
+            box-shadow: 1px 1px 1px black, 0px 0px 1px #0d0d0d;
+            border: 1px solid black;
+            height: 24px;
+            width: 12px;
+            border-radius: 3px;
+            background: grey;
+            cursor: pointer;
+        }
+
+        input[type=range]:hover::-moz-range-thumb {
+            background: dimgrey;
+        }
+
+        input[type=range]::-ms-track {
+            width: 100%;
+            height: 10px;
+            cursor: pointer;
+            animate: 0.2s;
+            background: transparent;
+            border-color: transparent;
+            border-width: 10px;
+            color: transparent;
+            margin: -4px;
+        }
+
+        input[type=range]::-ms-fill-lower {
+            background: red;
+            border: 0.2px solid #010101;
+            border-radius: 2.6px;
+            box-shadow: 1px 1px 1px black, 0px 0px 1px #0d0d0d;
+        }
+
+        input[type=range]::-ms-fill-upper {
+            background: red;
+            border: 0.2px solid #010101;
+            border-radius: 2.6px;
+            box-shadow: 1px 1px 1px black, 0px 0px 1px #0d0d0d;
+        }
+
+        input[type=range]::-ms-thumb {
+            box-shadow: 1px 1px 1px black, 0px 0px 1px #0d0d0d;
+            border: 1px solid black;
+            height: 19px;
+            width: 10px;
+            border-radius: 3px;
+            background: grey;
+            cursor: pointer;
+            margin: 0;
+        }
+
+        input[type=range]:focus::-ms-fill-lower {
+            background: red;
+        }
+
+        input[type=range]::-ms-tooltip {
+            display: none;
+        }
+
+        input[type=range]:focus::-ms-fill-upper {
+            background: red;
+        }
+
+        input[type=range]:hover::-ms-thumb {
+            background: dimgrey;
+        }
+
+
+        /* text fly in effect */
+
+        .flyItIn {
+            animation: flyin 1s ease forwards;
+            opacity: 0;
+            transform: scale(2);
+            filter: blur(4px);
+        }
+
+        @keyframes flyin {
+            to {
+                filter: blur(0);
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .flyItIn2 {
+            animation: flyin2 1s ease forwards;
+            opacity: 0;
+            transform: scale(2);
+            filter: blur(4px);
+        }
+
+        @keyframes flyin2 {
+            to {
+                filter: blur(0);
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* rotates the Design Canvas div */
+
+        .rotationTime {
+            -webkit-transition: all 4s linear;
+            -moz-transition: all 4s linear;
+            -ms-transition: all 4s linear;
+            -o-transition: all 4s linear;
+            transition: all 4s linear;
+        }
+
+        .rotateCanvas {
+            -webkit-transform: rotateX(360deg) rotateY(360deg);
+            -moz-transform: rotateX(360deg) rotateY(360deg);
+            -ms-transform: rotateX(360deg) rotateY(360deg);
+            -o-transform: rotateX(360deg) rotateY(360deg);
+            transform: rotateX(360deg) rotateY(360deg);
+        }
+
+        /* make adjustments for smaller devices */
+
+        @media (max-width: 700px) {
+            .gridContainer {
+                grid-template-areas:
+                    'control'
+                    'canvas';
+                grid-template-columns: 1fr;
+            }
+
+            .squares-bg::before {
+                background-size: 20px 20px;
+            }
+
+            h1 {
+                font-size: 22px;
+            }
+
+            .gridControl {
+                margin: 0 15px 20px 15px;
+            }
+
+            .gridCanvas {
+                margin: 0 15px 20px 15px;
+            }
+        }
+    </style>
+
+</head>
+
+<body class="squares-bg">
+    <div class="header flyItIn">
+        <h1>Lab: Pixel Art Maker</h1>
+    </div>
+    <div class="gridContainer">
+        <div class="gridControl">
+            <h2>Choose Grid Size</h2>
+            <form id="sizePicker" name="gridSize">
+                <span class="gridSizeLabel">Grid Height:</span><span id="gridHeightDisplay"> 15</span>
+                <input type="range" id="inputHeight" class="slider" title="Set grid height" name="height" min="1"
+                    max="50" value="15">
+                <br>
+                <span class="gridSizeLabel">Grid Width:</span><span id="gridWidthDisplay"> 15</span>
+                <input type="range" id="inputWidth" class="slider" title="Set grid width" name="width" min="1" max="50"
+                    value="15">
+                <br>
+                <div class="gridCreateClear">
+                    <input class="button" type="submit" id="createGrid" value="Create Grid" name="submitGrid"
+                        title="Makes a grid of tiles using the values above">
+                    <button class="button" type="button" id="clearGrid" value="Clear"
+                        title="Clears the colors from the grid so you can start over">
+                        Clear
+                    </button>
+                </div>
+            </form>
+
+            <h2>Pick a Color: </h2>
+            <input type="color" id="colorPicker" value="#ff0000" title="Set PAINT color">
+            <br>
+            <h2>Mode: </h2><span id="modeDisplay" class="paintOrErase"> PAINT</span>
+            <br>
+            <div id="mode">
+                <button id="paintBtn" class="button paint" title="Set mode to PAINT" type="button">
+                    <i class="fas fa-paint-brush paint"></i>
+                </button>
+                <button id="eraseBtn" class="button erase" title="Set mode to ERASE" type="button">
+                    <i class="fas fa-eraser erase"></i>
+                </button>
+            </div> <!--end mode div: for mode button listener -->
+        </div> <!-- end gridControl -->
+        <div id="gridCanvas" class="gridCanvas rotationTime">
+            <h2>Design Canvas</h2>
+            <table id="pixelCanvas" class="flyItIn2"></table>
+            <p id="legend" class="noLegend"><em>(Click to paint or erase. Left mouse button for multi-tile action)</em>
+            </p>
+        </div> <!-- end gridCanvas -->
+    </div> <!-- end cssGirdcontainer -->
+    <!-- <script src="designs.js"></script> -->
+</body>
+
+<script>// Create a grid that a user can color with clicks
+    //   - allows grid size entry and color selection
+
+    // When size is submitted by the user, call makeGrid()
+
+    // Set the inital 'paint' changes happen in click event
+    const PAINT = 'PAINT';
+    const ERASE = 'ERASE';
+    const theGridSize = document.forms.gridSize;
+    const userColor = document.getElementById('colorPicker');
+    const tileMode = document.getElementById('modeDisplay');
+    const displayHeight = document.getElementById('gridHeightDisplay');
+    const displayWidth = document.getElementById('gridWidthDisplay');
+    const userHeight = document.getElementById('inputHeight');
+    const userWidth = document.getElementById('inputWidth');
+    // let grid = $('#pixelCanvas');
+    const grid = document.getElementById('pixelCanvas');
+    const gridCanvas = document.getElementById('gridCanvas');
+    let gridTileMode = PAINT // controls paint or erase of grid cells (td's)
+
+    // $('#createGrid').on('click', function makeGrid(event) {gridSize
+    theGridSize.submitGrid.onclick = function makeGrid(event) {
+        // prevent page refreshing when clicking submit
+        event.preventDefault();
+        let mouseIsDown = false;
+        // let rows = $("#inputHeight").val();
+        // let columns = $("#inputWidth").val();
+        const rows = userHeight.value;
+        const columns = userWidth.value;
+
+        // grid.children().remove(); // delete any previous table rows
+        while (grid.hasChildNodes()) {
+            grid.removeChild(grid.lastChild); // delete any previous table rows
+        }
+
+        //Build the grid row by row and then append to the table
+        //  project rubrics requires use of for and while loops
+
+        let tableRows = '';
+        let r = 1;
+        while (r <= rows) {
+            tableRows += '<tr>';
+            for (let c = 1; c <= columns; c++) {
+                tableRows += '<td></td>';
+            }
+            tableRows += '</tr>';
+            r += 1;
+        } // end while loop
+        grid.insertAdjacentHTML('afterbegin', tableRows); // add grid to DOM
+        // $('.legend').show(); // <p> tag with instructions for mouseover
+        document.getElementById('legend').className = "legend";
+        grid.classList.toggle('flyItIn'); // fly in effect for grid
+        grid.classList.toggle('flyItIn2'); // Twice to trigger reflow
+        // Listen for click to paint or erase a tile
+        // grid.on('click', 'td', function() {
+        //     paintEraseTiles($(this));
+        // });
+        grid.addEventListener("click", function (event) {
+            event.preventDefault();
+            paintEraseTiles(event.target);
+        });
+
+        // Listen for mouse down, up and over for continuous paint and erase
+
+        // grid.on('mousedown', function(event) {
+        grid.addEventListener('mousedown', function (event) {
+            event.preventDefault();
+            mouseIsDown = event.which === 1 ? true : false;
+        });
+
+        // document.on('mouseup', function() {
+        document.addEventListener('mouseup', function (event) {
+            event.preventDefault();
+            mouseIsDown = false;
+        });
+
+        // grid.on('mouseover', 'td', function() {
+        grid.addEventListener('mouseover', function (event) {
+            // if (mouseIsDown) {paintEraseTiles($(this));}
+            event.preventDefault();
+            if (mouseIsDown) { paintEraseTiles(event.target); }
+        }); // end continuous paint and erase
+        // }); // end grid
+    }; // end grid
+
+    // paint or erase cells based on the mode (girdTileMode)
+
+    function paintEraseTiles(targetCell) {
+        if (targetCell.nodeName === 'TD') {
+            targetCell.style.backgroundColor = gridTileMode === PAINT ? userColor.value : 'transparent';
+            //     // $(targetCell).css('background-color', $('#colorPicker').val());
+            //     // $(targetCell).css('background-color', 'transparent');
+        } else {
+            console.log("Nice try: " + targetCell.nodeName + " talk to the hand!");
+        }
+    }
+
+    // Display how many cells high the grid will be
+    // $('#inputHeight').on('input', function() {
+    // $('#gridHeightDisplay').text(' ' + $(this).val());
+    theGridSize.height.oninput = function () {
+        displayHeight.innerHTML = ' ' + theGridSize.height.value;
+        // });
+    };
+    // Display how many cells wide the grid will be
+    // $('#inputWidth').on('input', function() {
+    // $('#gridWidthDisplay').text(' ' + $(this).val());
+    theGridSize.width.oninput = function () {
+        displayWidth.innerHTML = ' ' + theGridSize.width.value;
+        // });
+    };
+
+    // $('#colorPicker').on('input', function() {
+    // $('.paintOrErase').text(' ' + gridTileMode);
+    userColor.oninput = function (event) {
+        gridTileMode = PAINT;
+        tileMode.innerHTML = ' ' + gridTileMode;
+    };
+    // Erase colors from the grid
+
+    // clear.on('click', function(){
+    document.getElementById('clearGrid').addEventListener('click', function () {
+        gridCanvas.classList.toggle('rotateCanvas'); // rotate the Design Canvas div
+        let tiles = grid.getElementsByTagName('td');
+        // grid.children().children().removeAttr("style");
+        for (let i = 0; i <= tiles.length; i++) {
+            tiles[i].style.backgroundColor = 'transparent';
+        }
+    });
+
+    // set the mode to PAINT or ERASE
+    // $('button').on('click', function(event) {
+    document.getElementById('mode').addEventListener('click', function (event) {
+        gridTileMode = event.target.className.indexOf('paint') >= 0 ? PAINT : ERASE;
+        // $('.paintOrErase').text(' ' + gridTileMode);
+        tileMode.innerHTML = ' ' + gridTileMode;
+    }); // end mode change / display
+</script>
+
+</html>

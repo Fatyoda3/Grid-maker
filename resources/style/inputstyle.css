@@ -1,0 +1,51 @@
+
+
+.slider {
+	-webkit-appearance: none;
+	border-radius: 5px;
+
+	width: 140px;
+	height: 20px;
+
+	background: #f16969;
+}
+
+.slider::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	appearance: none;
+
+	width: 25px;
+	height: 25px;
+
+	background: #d63939;
+
+	cursor: pointer;
+
+}
+
+.slider::-moz-range-thumb {
+	width: 25px;
+	height: 25px;
+
+	background: #030000;
+    border-radius: 72px;
+
+	cursor: pointer;
+}
+
+
+
+.colField label {
+	padding: 10px 20px;
+	margin: 10px 5px;
+}
+
+.rowField label {
+	padding: 10px 20px;
+	margin: 10px 12px;
+}
+
+.coloPick label {
+	padding: 10px 20px;
+	margin: 10px 5px;
+}

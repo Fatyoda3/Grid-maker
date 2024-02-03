@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        td {
+            border: 1px solid black;
+            width: 20px;
+            height: 20px;
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        table {
+            border-spacing: 0px;
+        }
+    </style>
+</head>
+
+<body>
+    <table>
+        <tbody>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+
+
+<script>
+    let td = document.querySelectorAll('td');
+    let IsMouseDown;
+    td.forEach(
+
+        (e) => e.addEventListener('mousedown', () => { IsMouseDown = true; console.log('object') })
+
+
+    )
+
+    td.forEach((e) =>
+        e.addEventListener('mouseover', () => {
+            if (IsMouseDown) {
+                e.style.backgroundColor = "green";
+
+            }
+
+        })
+
+    )
+
+    /*    td.forEach((e) => e.addEventListener('mouseup', () => {
+   
+           IsMouseDown = false;
+       }))
+    */
+
+    document.addEventListener("mouseover", () => {
+        IsMouseDown = false;
+    })
+
+
+</script>
+
+</html>

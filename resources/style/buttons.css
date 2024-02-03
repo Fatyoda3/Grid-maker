@@ -1,0 +1,39 @@
+.Paint {
+	/* border: 2px solid seagreen; */
+}
+
+.Paint > span {
+	display: inline-block;
+
+	width: 100px;
+
+	text-align: center;
+
+	padding: 10px 20px;
+
+	margin: 1em 2em;
+
+	font: bolder 1.2em fantasy;
+    
+	border-top: 1px solid #fa6969;
+
+	border-left: 1px solid #fa6969;
+
+
+	color: #fa6969;
+
+	box-shadow: 1px 1px 1px rgb(192, 8, 8);
+
+	transition: all 0.2s ease-in-out;
+
+	border-radius: 5px;
+}
+
+.Paint > span:hover {
+	box-shadow: 2px 3px 3px black;
+
+	cursor: pointer;
+
+	background-color: rgb(244, 99, 99);
+	color: white;
+}

@@ -1,0 +1,42 @@
+.head {
+	display: flex;
+	flex-wrap: wrap;
+
+	justify-content: center;
+	align-items: center;
+
+	flex-direction: column;
+}
+
+.head {
+
+	font: bolder 1em "Segoe UI";
+	color: #f16969;
+
+}
+
+#RC {
+	display: flex;
+
+	flex-wrap: wrap;
+
+	
+}
+
+
+
+#ColVal,
+#rowVal {
+	display: inline-flex;
+	border: 2px solid #f16969;
+	width: 50px;
+	height: 50px;
+	margin: 20px;
+
+  border-radius: 6px;
+
+  text-align: center;
+
+  justify-content: center;
+  align-items: center;
+}

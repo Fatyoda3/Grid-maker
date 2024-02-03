@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="#" type="image/x-icon" />
+
+    <link rel="stylesheet" href="style.css" />
+
+    <title>Pixel Art Maker</title>
+  </head>
+
+  <body>
+    <div class = "utility">
+      <div class="Paint">
+        <span onclick="createGridPixel()">Paint</span>
+  
+        <span>clear</span>
+      </div>
+  
+      <div class="head">
+        <div id="RC">
+          <div class="rowField">
+            <label for="Rows">Rows </label>
+            <input
+              type="range"
+              id="row"
+              class="slider"
+              min="1"
+              max="50"
+              oninput="getValue(this)"
+            />
+  
+            <span id="rowVal"></span>
+          </div>
+  
+          <div class="colField">
+            <label for="columns">Column</label>
+            <input
+              type="range"
+              id="column"
+              class="slider"
+              min="1"
+              max="50"
+              oninput="getValue(this)"
+            />
+  
+            <span id="ColVal"></span>
+          </div>
+        </div>
+        <div class="coloPick">
+          <label for="color">Choose a Color</label>
+          <input type="color" id="color-value" />
+        </div>
+      </div>
+    </div>
+    <table class="pixelGrid">
+      <tbody></tbody>
+    </table>
+  </body>
+
+  <script src="script.js"></script>
+</html>

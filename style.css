@@ -1,0 +1,219 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  min-width: 350px;
+  display: flex;
+  margin-top: 10px;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background: #ff758c50;
+}
+
+.colPick {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.rowField,.colField {
+  display: grid;
+
+  justify-content: center;
+  align-items: center;
+  grid-template-columns: auto auto auto;
+}
+
+ 
+
+.coloPick {
+  display: grid;
+
+  justify-content: center;
+  align-items: center;
+
+  grid-template-columns: auto auto;
+
+  padding: 10px 10px;
+}
+
+.main {
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  flex-direction: column;
+
+  width: 40vw;
+
+  height: 40vw;
+
+  border: 2px solid red;
+  margin: 0;
+  padding: 0;
+}
+
+
+
+.pixel {
+  border: 1px solid black;
+  /*  width: 40px;
+  height: 40px; */
+  padding: 0;
+  margin: 0;
+  /* box-sizing: border-box; */
+  border-collapse: collapse;
+  border-spacing: 0px;
+}
+
+tr {
+  height: 20px;
+  margin: 0;
+  padding: 0;
+}
+
+
+.pixelGrid {
+  display: flex;
+  flex-direction: column;
+  /* border: 1px solid rgb(0, 0, 0); */
+  height: 39vw;
+  width: 39vw;
+  margin: 0;
+  padding: 0;
+  border-collapse: collapse; 
+  border-spacing: 0;
+}
+
+td.pixel {
+  margin: 0;
+  padding: 0;
+  width: 20px; 
+  height: 20px; 
+}
+
+.utility{
+  border:1px solid;
+}
+
+
+
+.slider {
+  -webkit-appearance: none;
+  border-radius: 5px;
+
+  width: 140px;
+  height: 20px;
+
+  background: #f16969;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+
+  width: 25px;
+  height: 25px;
+
+  background: #d63939;
+
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+
+  background: #000000;
+  border-radius: 72px;
+
+  cursor: pointer;
+}
+
+.colField label {
+  padding: 10px 20px;
+  margin: 10px 5px;
+}
+
+.rowField label,.coloPick label  {
+  padding: 5px 10px;
+  margin: 5px 12px;
+}
+
+
+
+.head {
+  display: flex;
+  flex-wrap: wrap;
+
+  justify-content: center;
+  align-items: center;
+
+  flex-direction: column;
+
+  font: bolder 1em 'Segoe UI';
+  color: #f16969;
+}
+
+#RC {
+  display: flex;
+
+  flex-wrap: wrap;
+}
+
+#ColVal,
+#rowVal {
+  display: inline-flex;
+  border: 2px solid #f16969;
+  width: 25px;
+  height: 25px;
+  margin: 10px;
+  padding: 5px;
+
+  border-radius: 6px;
+
+  text-align: center;
+
+  justify-content: center;
+  align-items: center;
+}
+
+.Paint > span {
+  display: inline-block;
+
+  width: 50px;
+
+  text-align: center;
+
+  padding: 5px 10px;
+
+  margin: 1em 2em;
+
+  font: bolder 1.2em fantasy;
+
+  border-top: 1px solid #fa6969;
+
+  border-left: 1px solid #fa6969;
+
+  color: #fa6969;
+
+  box-shadow: 1px 1px 1px rgb(192, 8, 8);
+
+  transition: all 0.2s ease-in-out;
+
+  border-radius: 5px;
+}
+
+.Paint > span:hover {
+  box-shadow: 2px 3px 3px black;
+
+  cursor: pointer;
+
+  background-color: rgb(244, 99, 99);
+  color: white;
+}
